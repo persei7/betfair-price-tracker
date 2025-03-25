@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Betting Price Tracker</title>
+  <style>
+    body {
+      width: 350px;
+      font-family: Arial, sans-serif;
+      padding: 12px;
+      margin: 0;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 10px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #007bff;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    .button:hover {
+      background-color: #f0f0f0;
+    }
+    .market-info {
+      background-color: #e9ecef;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #495057;
+    }
+    .runner-card {
+      margin-bottom: 12px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: transform 0.1s;
+    }
+    .runner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    }
+    .runner-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 15px;
+      color: #212529;
+    }
+    .price-range {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #495057;
+    }
+    .price-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-change {
+      margin-left: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .increase {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+    }
+    .decrease {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+    .runner-timestamp {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #6c757d;
+      text-align: right;
+    }
+    .updated-time {
+      color: #6c757d;
+      font-size: 12px;
+      margin-top: 15px;
+      text-align: center;
+      border-top: 1px solid #e9ecef;
+      padding-top: 10px;
+    }
+    .status-message {
+      padding: 10px;
+      background-color: #f8d7da;
+      color: #721c24;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+    /* Loading animation */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+    }
+    .loading:after {
+      content: '.';
+      animation: dots 1.5s steps(5, end) infinite;
+    }
+    @keyframes dots {
+      0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+      40% { color: #6c757d; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+      60% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 rgba(0,0,0,0); }
+      80%, 100% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 #6c757d; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 style="margin: 0;">Runner Price Tracker</h2>
+    <div class="action-buttons">
+      <button id="optionsButton" class="button" title="Settings">⚙️</button>
+      <button id="refreshButton" class="button" title="Refresh data">↻</button>
+    </div>
+  </div>
+  <div id="runnerData" class="loading">Loading data</div>
+  <div id="lastUpdated" class="updated-time"></div>
+  <div id="statusMessage" class="status-message"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

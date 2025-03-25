@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tab Racing Odds Overlay</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 12px;
+      font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+      font-size: 16px;
+      margin-top: 0;
+      color: #333;
+    }
+    
+    .settings-group {
+      margin-bottom: 12px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+    }
+    
+    select, input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    button:hover {
+      background-color: #0052a3;
+    }
+    
+    .status {
+      font-size: 12px;
+      margin-top: 10px;
+      padding: 6px;
+      background-color: #f8f8f8;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tab Racing Odds Overlay</h1>
+  
+  <div class="settings-group">
+    <label for="odds-source">Alternative Odds Source:</label>
+    <select id="odds-source">
+      <option value="mock">Demo Data (Mock)</option>
+      <option value="custom" disabled>Custom Source (Coming Soon)</option>
+    </select>
+  </div>
+  
+  <div class="settings-group">
+    <label>
+      <input type="checkbox" id="highlight-better-odds" checked>
+      Highlight better odds
+    </label>
+  </div>
+  
+  <div class="settings-group">
+    <label>
+      <input type="checkbox" id="auto-refresh" checked>
+      Auto-refresh odds (every 30s)
+    </label>
+  </div>
+  
+  <button id="refresh-now">Refresh Odds Now</button>
+  
+  <div class="status">
+    <p>Status: <span id="status-message">Ready</span></p>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

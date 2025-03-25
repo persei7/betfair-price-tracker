@@ -1,0 +1,66 @@
+.tab-racing-odds-overlay {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 4px 8px;
+  z-index: 9999;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+}
+
+.tab-racing-odds-overlay:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tab-racing-odds-overlay .alternative-odds {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tab-racing-odds-overlay .odds-value {
+  font-weight: bold;
+  color: #0066cc;
+}
+
+.tab-racing-odds-overlay .odds-source {
+  font-size: 10px;
+  color: #666;
+}
+
+.tab-racing-odds-overlay.expanded {
+  min-width: 120px;
+  padding: 8px 12px;
+}
+
+.tab-racing-odds-overlay.expanded .odds-source {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Highlight better odds */
+.tab-racing-odds-overlay.better-value {
+  background-color: #e6ffe6;
+  border-color: #99cc99;
+}
+
+.tab-racing-odds-overlay.better-value .odds-value {
+  color: #006600;
+}
+
+/* Animation for new odds */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.tab-racing-odds-overlay.new-odds {
+  animation: pulse 0.5s ease;
+}

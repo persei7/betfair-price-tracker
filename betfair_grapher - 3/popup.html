@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Betting Price Tracker</title>
+  <style>
+    body {
+      width: 350px;
+      font-family: Arial, sans-serif;
+      padding: 12px;
+      margin: 0;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      margin-right: 5px;
+    }
+    .tab.active {
+      background-color: #fff;
+      border-bottom: 1px solid #fff;
+      margin-bottom: -1px;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #007bff;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    .button:hover {
+      background-color: #f0f0f0;
+    }
+    .market-info {
+      background-color: #e9ecef;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #495057;
+    }
+    .runner-card {
+      margin-bottom: 12px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: transform 0.1s;
+    }
+    .runner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    }
+    .runner-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 15px;
+      color: #212529;
+    }
+    .price-range {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #495057;
+    }
+    .price-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-change {
+      margin-left: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .increase {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: #28a745;
+    }
+    .decrease {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+    .runner-timestamp {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #6c757d;
+      text-align: right;
+    }
+    .updated-time {
+      color: #6c757d;
+      font-size: 12px;
+      margin-top: 15px;
+      text-align: center;
+      border-top: 1px solid #e9ecef;
+      padding-top: 10px;
+    }
+    .status-message {
+      padding: 10px;
+      background-color: #f8d7da;
+      color: #721c24;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+    /* Loading animation */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+    }
+    .loading:after {
+      content: '.';
+      animation: dots 1.5s steps(5, end) infinite;
+    }
+    @keyframes dots {
+      0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+      40% { color: #6c757d; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+      60% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 rgba(0,0,0,0); }
+      80%, 100% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 #6c757d; }
+    }
+    
+    /* Settings tab styles */
+    .settings-group {
+      margin-bottom: 20px;
+      padding: 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      background-color: #f8f9fa;
+    }
+    .settings-group h3 {
+      margin-top: 0;
+      color: #3498db;
+      font-size: 1.2em;
+    }
+    .setting-item {
+      margin-bottom: 15px;
+    }
+    .setting-item label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100px;
+      padding: 8px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+    select {
+      padding: 8px;
+      min-width: 170px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+    }
+    .checkbox-label input {
+      margin-right: 8px;
+    }
+    .save-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    .save-button:hover {
+      background-color: #2980b9;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="tabs">
+    <div class="tab active" data-tab="prices">Prices</div>
+    <div class="tab" data-tab="settings">Settings</div>
+  </div>
+  
+  <div id="pricesTab" class="tab-content active">
+    <div class="header">
+      <h2 style="margin: 0;">Runner Price Tracker</h2>
+      <div class="action-buttons">
+        <button id="refreshButton" class="button" title="Refresh data">↻</button>
+      </div>
+    </div>
+    <div id="runnerData" class="loading">Loading data</div>
+    <div id="lastUpdated" class="updated-time"></div>
+    <div id="statusMessage" class="status-message"></div>
+  </div>
+  
+  <div id="settingsTab" class="tab-content">
+    <div class="header">
+      <h2 style="margin: 0;">Settings</h2>
+    </div>
+    
+    <div class="settings-group">
+      <h3>Display Settings</h3>
+      <div class="setting-item">
+        <label for="updateInterval">Update Interval (seconds):</label>
+        <input type="number" id="updateInterval" min="1" max="60">
+      </div>
+      <div class="setting-item">
+        <label for="displayMode">Display Mode:</label>
+        <select id="displayMode">
+          <option value="overlay">Overlay</option>
+          <option value="sidebar">Sidebar</option>
+          <option value="popup">Popup Only</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3>Price Alert Settings</h3>
+      <div class="setting-item">
+        <label for="priceChangeThreshold">Price Change Alert Threshold (%):</label>
+        <input type="number" id="priceChangeThreshold" min="0.1" max="100" step="0.1">
+      </div>
+      <div class="setting-item">
+        <label class="checkbox-label">
+          <input type="checkbox" id="enableNotifications">
+          Enable Desktop Notifications
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3>Data Settings</h3>
+      <div class="setting-item">
+        <label class="checkbox-label">
+          <input type="checkbox" id="storeHistory">
+          Store Price History
+        </label>
+      </div>
+      <div class="setting-item">
+        <label for="historyDuration">Keep History For (days):</label>
+        <input type="number" id="historyDuration" min="1" max="30">
+      </div>
+    </div>
+
+    <button id="saveSettings" class="save-button">Save Settings</button>
+    <div id="saveStatus" class="success"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
